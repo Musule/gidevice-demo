@@ -166,13 +166,14 @@ sudo go mod tidy
 
 单元测试框架使用testing
 ### 运行单元测试
- ```shell
+```shell
 	cd src/Test/
 	go test -v -run=TestA gdevice_test.go //测试执行TestA 方法
 	go test -v -run=TestB gdevice_test.go //测试执行TestB 方法
 	go test -v gdevice_testgdevice_test.go //测试执行unit_test.go文件中的所有方法
 	go test . // 测试文件夹下所有
 ```
+
 ### 运行main方法
 ```shell
 go run main.go
