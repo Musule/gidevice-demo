@@ -1,0 +1,19 @@
+{
+	"url": {
+		"backend": {
+            "url_backend_login":"",
+            "url_backend_sale_backend":""
+        },
+		"h5": {}
+	},
+	"path": {
+		"backend_path": {
+			"mds_couponPackage_grantSingle": "" 
+		},
+		"h5_path": {}
+	},
+    "data":{
+        "url_backend_login_username":"",
+        "url_backend_login_password":""
+    }
+}
