@@ -16,6 +16,8 @@
 * 定位修改/恢复
 * Pair
 
+<img width="330" alt="image" src="https://user-images.githubusercontent.com/19643260/159837607-4e262924-bd76-41c9-9746-299ca6893f2f.png">
+
 
 # Go环境配置
 
@@ -172,6 +174,7 @@ iOS设备安装wda并启动
 ```shell
 gidevice list
 ```
+<img width="651" alt="image" src="https://user-images.githubusercontent.com/19643260/159827651-5e3f779b-cda8-4e24-988b-990927b0e155.png">
 
 * DeveloperDiskImage 四种方式
 ```shell
