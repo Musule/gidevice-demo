@@ -9,6 +9,9 @@ import ("testing"
 		"image/jpeg"
 		"image/png"
 		"time"
+		"path/filepath"
+		"os/signal"
+
 )
 
 /*
@@ -53,7 +56,7 @@ func TestSimulateLocation(t  *testing.T){
 	d := devices[0]
 	
 	// 查询城市经纬度工具：https://api.map.baidu.com/lbsapi/getpoint/index.html
-	if err = d.SimulateLocationUpdate(-118.272054,34.018309, giDevice.CoordinateSystemBD09); err != nil {
+	if err = d.SimulateLocationUpdate(113.549134,22.198751, giDevice.CoordinateSystemBD09); err != nil {
 		log.Fatalln(err)
 	}
 	
@@ -118,4 +121,88 @@ func TestScreen(t *testing.T){
         log.Fatalln(err)
     }
     fmt.Println(file.Name())
+}
+
+/*
+	app
+*/
+func TestAPP(t *testing.T){
+	usbmux, err := giDevice.NewUsbmux()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	devices, err := usbmux.Devices()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if len(devices) == 0 {
+		log.Fatalln("No Device")
+	}
+
+	d := devices[0]
+
+	bundleID := "com.apple.Preferences"
+	pid, err := d.AppLaunch(bundleID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	err = d.AppKill(pid)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	runningProcesses, err := d.AppRunningProcesses()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	for _, process := range runningProcesses {
+		if process.IsApplication {
+			log.Printf("%4d\t%-24s\t%-36s\t%s\n", process.Pid, process.Name, filepath.Base(process.RealAppName), process.StartDate)
+		}
+	}
+}
+
+/*
+	XCTest
+*/
+
+func TestXCTest(t *testing.T)  {
+	usbmux, err := giDevice.NewUsbmux()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	devices, err := usbmux.Devices()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if len(devices) == 0 {
+		log.Fatal("No Device")
+	}
+
+	d := devices[0]
+
+	out, cancel, err := d.XCTest("com.leixipaopao.WebDriverAgentRunner.xctrunner")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	done := make(chan os.Signal, 1)
+	signal.Notify(done, os.Interrupt)
+
+	go func() {
+		for s := range out {
+			fmt.Print(s)
+		}
+	}()
+
+	<-done
+	cancel()
+	fmt.Println()
+	log.Println("DONE")
 }

@@ -5,8 +5,6 @@ import (
 	// "encoding/json"
 )
 
-
 func main() {
 	fmt.Println("")
 }
-

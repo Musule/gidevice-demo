@@ -322,10 +322,12 @@ go env | grep GOPROXY
 * 6. 查看设备连接
 
 ```shell
+gidevice list
 ```
-* 7. 
+* 7.格式化代码
 
 ```shell
+go fmt .
 ```
 * 8. 
 
